@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Contact Manager</title>
+  <link rel="stylesheet" href="stylesheets/main.css" type="text/css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/handlebars.js"></script>
+  <script type="text/javascript" src="/javascripts/manager.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Contact Manager</h1>
+    <button type="button" id="add-button">Add Contact</button>
+    <input type="text" id="search" placeholder="Search Contacts" name="search"/>
+    <form id="tag-form">
+      <input type="text" id="tag-input" placeholder="New Tag" name="tag"/>
+      <button type="button" id="tag-button">Create Tag</button>
+    </form>
+    <ul id="tag-list"></ul>
+  </header>
+  <main>
+    <p id="search-message" class="hide">Sorry, no results found.</p>
+    <ul id="contact-list"></ul>
+    <div id="overlay" class="hide"></div>
+    <form id="contact-form" class="hide"></form>
+  </main>
+  
+  <script id="form-template" type="text/x-handlebars">
+    {{#if full_name}}
+      <h3>Edit Contact</h3>
+    {{else}}
+      <h3>New Contact</h3>
+    {{/if}}
+    <dl>
+      <dt><label for="full_name">Full Name:</label></dt>
+      <dd><input type="text" id="full_name" name="full_name" value="{{full_name}}" /></dd>
+    </dl>
+    <dl>
+      <dt><label for="email">Email:</label></dt>
+      <dd><input type="text" id="email" name="email" value="{{email}}"/></dd>
+    </dl>
+    <dl>
+      <dt><label for="phone_number">Phone Number:</label></dt>
+      <dd><input type="text" id="phone_number" name="phone_number" value="{{phone_number}}"/></dd>
+    </dl>
+    <dl>
+      <dt><label for="tags">Tags:</label></dt>
+      <dd><input type="text" id="tags" name="tags" value="{{tags}}"/></dd>
+    </dl>
+    <div class="form-buttons">
+      <button type="submit" id="submit">Submit</button>
+      <button type="button" id="cancel">Cancel</button>
+    </div>
+  </script>
+  
+  <script id="contacts-template" type="text/x-handlebars">
+    {{#each contacts}}
+      {{> contact-template}}
+    {{/each}}
+  </script>
+  
+  <script id="contact-template" class="partial" type="text/x-handlebars">
+    <li>
+      <h2>{{full_name}}</h2>
+      <dl>
+        <dt>Phone Number:</dt>
+        <dd class="phone_number">{{phone_number}}</dd>
+        <dt>Email:</dt>
+        <dd class="email">{{email}}</dd>
+        <dt>Tags:</dt>
+          {{#if tags}}
+            <dd>{{tags}}</dd>
+          {{else}}
+            <dd>This contact has no tags.</dd>
+          {{/if}}
+      </dl>
+      <button type="button" class="delete">Delete</button>
+      <button type="button" class="edit">Edit</button>
+    </li>
+  </script>
+  
+  <script id="tags-template" type="text/x-handlebars">
+    {{#each tags}}
+      <li>{{this}}</li>
+    {{/each}}
+  </script>
+</body>
+</html>
